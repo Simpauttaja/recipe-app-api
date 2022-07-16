@@ -1,0 +1,21 @@
+# Version of the docker-compose syntax we are going to use
+version: "3.9"
+
+services:
+  app:
+    # We want to build docker image within our current directory
+    build:
+      context: .
+      args:
+        - DEV=true
+    ports:
+      - "8000:8000"
+    # Map the app-folder from local machine to app-folder in our container
+    # This is because we want to updates made to our code to be reflected in our
+    # running container in real time
+    volumes:
+      - ./app:/app
+    # If we don't specify a command, this is the default command used for
+    # docker-compose
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
